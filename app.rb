@@ -2,7 +2,6 @@ require 'sinatra'
 require 'sinatra/reloader'
 require 'sinatra/activerecord'
 require './helpers'
-require 'securerandom'
 
 # Load all models
 Dir[File.join(File.dirname(__FILE__), 'app', 'models', '*.rb')].each { |file| require file }
