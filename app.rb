@@ -30,27 +30,4 @@ class App < Sinatra::Base
   get '/' do
     erb :index
   end
-
-  post '/links' do
-    short_url_string = SecureRandom.alphanumeric(12)
-
-    link = ShortLink.create(
-      long_url: params[:long_url],
-      short_url: short_url_string
-    )
-
-    redirect to("/show/#{link.id}")
-  end
-
-  get '/show/:id' do
-    @link = ShortLink.find(params[:id])
-    erb :show
-  end
-
-  get '/links/:short_url' do
-    @link = ShortLink.find(params[:short_url])
-    link_visits = @link.visits.to_i
-    @link.update(visits: link_visits + 1)
-    redirect to("http://localhost:9292/#{link.long_url}")
-  end
 end
