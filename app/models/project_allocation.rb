@@ -7,6 +7,10 @@ class ProjectAllocation < ActiveRecord::Base
 
   belongs_to :project
 
+  def allocation_category
+    project.category
+  end
+
   # validate :period_start_within_project_dates
 
   private

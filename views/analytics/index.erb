@@ -37,25 +37,42 @@
       </div>
     </div>
   </div>
-
-  <!-- Project Allocations Chart -->
+  <!-- Allocations By Category Chart -->
   <div class="col-md-6 mb-4">
     <div class="card shadow-sm h-100">
       <div class="card-body">
-        <h3 class="card-title">Project Allocations</h3>
-        <canvas id="allocationChart"></canvas>
+        <h3 class="card-title">Resource Allocation By Category</h3>
+        <canvas id="allocationCategoryChart"></canvas>
       </div>
     </div>
   </div>
+ 
 </div>
+<div class="row">
+    <!-- Project Allocations Chart -->
+    <div class="col-md-6 mb-4">
+    <div class="card shadow-sm h-100">
+        <div class="card-body">
+        <h3 class="card-title">Project Allocations</h3>
+        <canvas id="allocationChart"></canvas>
+        </div>
+    </div>
+    </div>
+</div>
+
 
 <!-- Initialize chart data and include chart scripts -->
 <script>
   // Initialize data for charts
   const capacity_data = <%= @capacity_data.to_json %>;
   const allocationData = <%= @allocation_data.to_json %>;
+  const allocationCategoryData = <%= @allocation_category_data.to_json %>;
+  console.log("allocationCategoryData");
+  console.log(allocationCategoryData);
 </script>
 
-<!-- Include chart scripts -->
+<!-- Include chart utilities and scripts -->
+<script src="/scripts/chart_utils.js"></script>
 <script src="/scripts/capacity_chart.js"></script>
-<script src="/scripts/allocation_chart.js"></script> 
+<script src="/scripts/allocation_chart.js"></script>
+<script src="/scripts/allocation_category_chart.js"></script>
