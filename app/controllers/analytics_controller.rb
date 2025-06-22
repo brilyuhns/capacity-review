@@ -5,7 +5,8 @@ class AnalyticsController < App
     load_capacity_data
     load_allocation_data
     load_allocation_category_data
-
+    load_top_projects_by_allocation
+    
     erb :'analytics/index'
   end
 
@@ -66,5 +67,39 @@ class AnalyticsController < App
         }
       end
     } 
+  end
+
+  def load_top_projects_by_allocation
+    @top_projects = all_allocations
+    .group(:project_id)
+    .sum(:allocation)
+    .sort_by { |_, allocation| -allocation }
+    .first(5)
+
+    puts "top_projects"
+    puts @top_projects.inspect
+
+    allocation_categories = ProjectAllocation.joins(:project).where(period_start: @start_date..@end_date)
+      .select(:category).distinct.map(&:category).to_a
+    puts "allocation_categories"
+    puts allocation_categories.inspect
+
+    @top_projects_by_category = {}
+    allocation_categories.each do |category|
+      @top_projects_by_category[category] = ProjectAllocation.includes(:project)
+      .where(period_start: @start_date..@end_date)
+      .where(project: { category: category })
+      .group(:project_id)
+      .sum(:allocation)
+      .sort_by { |_, allocation| -allocation }
+      .first(5)
+      .map { |project_id, allocation| { project_id: project_id, name: Project.find(project_id).name, allocation: allocation } }
+    end
+    puts "top_projects_by_category"
+    puts @top_projects_by_category.inspect
+  end
+
+  def all_allocations
+    ProjectAllocation.includes(:project).where(period_start: @start_date..@end_date)
   end
 end
