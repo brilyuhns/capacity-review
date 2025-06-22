@@ -10,14 +10,39 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_25_095113) do
-  create_table "short_links", force: :cascade do |t|
-    t.string "short_url"
-    t.string "long_url"
-    t.integer "visits", default: 0
+ActiveRecord::Schema[8.0].define(version: 2025_05_03_024950) do
+  create_table "capacities", force: :cascade do |t|
+    t.date "period_start"
+    t.string "period_type", default: "week"
+    t.decimal "gross_capacity", null: false
+    t.decimal "planned_leaves", default: "0.0", null: false
+    t.decimal "unplanned_leaves", default: "0.0", null: false
+    t.string "source", default: "imported", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["short_url", "long_url"], name: "index_short_links_on_short_url_and_long_url"
+    t.index ["period_start", "period_type"], name: "index_capacities_on_period_start_and_period_type", unique: true
   end
 
+  create_table "project_allocations", force: :cascade do |t|
+    t.integer "project_id", null: false
+    t.date "period_start", null: false
+    t.string "period_type", default: "week", null: false
+    t.decimal "allocation", null: false
+    t.string "source", default: "manual", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id", "period_start", "period_type"], name: "index_project_allocations_on_project_period", unique: true
+    t.index ["project_id"], name: "index_project_allocations_on_project_id"
+  end
+
+  create_table "projects", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "category", null: false
+    t.date "start_date"
+    t.date "end_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "project_allocations", "projects"
 end

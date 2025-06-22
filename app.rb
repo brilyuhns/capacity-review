@@ -9,6 +9,7 @@ class App < Sinatra::Base
     enable :sessions
     set :json_encoder, :to_json
     set :erb, layout: :layout
+    # set :public_folder, File.join(File.dirname(__FILE__), 'public')
   end
 
   before do
@@ -24,7 +25,6 @@ class App < Sinatra::Base
   end
 
   get '/' do
-    @link = ShortLink.new
     erb :index
   end
 
@@ -41,7 +41,6 @@ class App < Sinatra::Base
 
   get '/show/:id' do
     @link = ShortLink.find(params[:id])
-
     erb :show
   end
 
@@ -49,8 +48,6 @@ class App < Sinatra::Base
     @link = ShortLink.find(params[:short_url])
     link_visits = @link.visits.to_i
     @link.update(visits: link_visits + 1)
-
     redirect to("http://localhost:9292/#{link.long_url}")
   end
-
 end

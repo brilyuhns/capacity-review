@@ -13,7 +13,7 @@ gem 'sinatra-static-assets'
 group :development do
   gem 'foreman'
   gem 'rubocop'
-  gem 'sqlite3', '~> 1.3', '>= 1.3.11'
+  gem 'sqlite3'
 end
 
 group :test do
@@ -22,5 +22,7 @@ group :test do
 end
 
 group :production do
-  gem 'pg'
+  gem 'sqlite3'
 end
+gem "rackup", "~> 2.2"
+gem "puma", "~> 6.6"
