@@ -2,6 +2,8 @@ require 'sinatra'
 require 'sassc'
 require './app'
 require './app/controllers/projects_controller'
+require './app/controllers/capacities_controller'
+require './app/controllers/project_allocations_controller'
 
 # Sass
 template = File.read('stylesheets/style.scss')
@@ -26,3 +28,5 @@ File.write('public/css/style.css.map', map)
 # # Mount the controllers
 map('/') { run App }
 map('/projects') { run ProjectsController }
+map('/capacities') { run CapacitiesController }
+map('/project_allocations') { run ProjectAllocationsController }

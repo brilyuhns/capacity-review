@@ -1,0 +1,45 @@
+<div class="container">
+  <h1 class="title">Capacities</h1>
+  
+  <div class="mb-4">
+    <a href="/capacities/new" class="button is-primary">New Capacity</a>
+  </div>
+
+  <table class="table is-fullwidth">
+    <thead>
+      <tr>
+        <th>Period Start</th>
+        <th>Period Type</th>
+        <th>Gross Capacity</th>
+        <th>Planned Leaves</th>
+        <th>Unplanned Leaves</th>
+        <th>Net Capacity</th>
+        <th>Source</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @capacities.each do |capacity| %>
+        <tr>
+          <td><%= capacity.period_start %></td>
+          <td><%= capacity.period_type %></td>
+          <td><%= capacity.gross_capacity %></td>
+          <td><%= capacity.planned_leaves %></td>
+          <td><%= capacity.unplanned_leaves %></td>
+          <td><%= capacity.net_capacity %></td>
+          <td><%= capacity.source %></td>
+          <td>
+            <div class="buttons">
+              <a href="/capacities/<%= capacity.id %>" class="button is-small is-info">Show</a>
+              <a href="/capacities/<%= capacity.id %>/edit" class="button is-small is-warning">Edit</a>
+              <form action="/capacities/<%= capacity.id %>" method="post" style="display: inline;">
+                <input type="hidden" name="_method" value="delete">
+                <button type="submit" class="button is-small is-danger">Delete</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div> 

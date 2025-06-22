@@ -1,0 +1,67 @@
+<% if @capacity.errors.any? %>
+  <div class="notification is-danger">
+    <ul>
+      <% @capacity.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<div class="field">
+  <label class="label">Period Start</label>
+  <div class="control">
+    <input class="input" type="date" name="capacity[period_start]" value="<%= @capacity.period_start %>" required>
+  </div>
+</div>
+
+<div class="field">
+  <label class="label">Period Type</label>
+  <div class="control">
+    <div class="select">
+      <select name="capacity[period_type]" required>
+        <option value="week" <%= 'selected' if @capacity.period_type == 'week' %>>Week</option>
+        <option value="month" <%= 'selected' if @capacity.period_type == 'month' %>>Month</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div class="field">
+  <label class="label">Gross Capacity</label>
+  <div class="control">
+    <input class="input" type="number" step="0.01" name="capacity[gross_capacity]" value="<%= @capacity.gross_capacity %>" required>
+  </div>
+</div>
+
+<div class="field">
+  <label class="label">Planned Leaves</label>
+  <div class="control">
+    <input class="input" type="number" step="0.01" name="capacity[planned_leaves]" value="<%= @capacity.planned_leaves %>" required>
+  </div>
+</div>
+
+<div class="field">
+  <label class="label">Unplanned Leaves</label>
+  <div class="control">
+    <input class="input" type="number" step="0.01" name="capacity[unplanned_leaves]" value="<%= @capacity.unplanned_leaves %>" required>
+  </div>
+</div>
+
+<div class="field">
+  <label class="label">Source</label>
+  <div class="control">
+    <div class="select">
+      <select name="capacity[source]" required>
+        <option value="imported" <%= 'selected' if @capacity.source == 'imported' %>>Imported</option>
+        <option value="manual" <%= 'selected' if @capacity.source == 'manual' %>>Manual</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div class="field">
+  <div class="control">
+    <button type="submit" class="button is-primary">Save Capacity</button>
+  </div>
+</div> 

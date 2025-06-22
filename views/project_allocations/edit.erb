@@ -1,0 +1,8 @@
+<div class="container">
+  <h1 class="title">Edit Project Allocation</h1>
+  
+  <form action="/project_allocations/<%= @project_allocation.id %>" method="post">
+    <input type="hidden" name="_method" value="put">
+    <%= erb :'project_allocations/_form' %>
+  </form>
+</div> 

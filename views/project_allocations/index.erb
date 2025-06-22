@@ -1,0 +1,41 @@
+<div class="container">
+  <h1 class="title">Project Allocations</h1>
+  
+  <div class="mb-4">
+    <a href="/project_allocations/new" class="button is-primary">New Project Allocation</a>
+  </div>
+
+  <table class="table is-fullwidth">
+    <thead>
+      <tr>
+        <th>Project</th>
+        <th>Period Start</th>
+        <th>Period Type</th>
+        <th>Allocation</th>
+        <th>Source</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @project_allocations.each do |allocation| %>
+        <tr>
+          <td><%= allocation.project.name %></td>
+          <td><%= allocation.period_start %></td>
+          <td><%= allocation.period_type %></td>
+          <td><%= allocation.allocation %>%</td>
+          <td><%= allocation.source %></td>
+          <td>
+            <div class="buttons">
+              <a href="/project_allocations/<%= allocation.id %>" class="button is-small is-info">Show</a>
+              <a href="/project_allocations/<%= allocation.id %>/edit" class="button is-small is-warning">Edit</a>
+              <form action="/project_allocations/<%= allocation.id %>" method="post" style="display: inline;">
+                <input type="hidden" name="_method" value="delete">
+                <button type="submit" class="button is-small is-danger">Delete</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div> 

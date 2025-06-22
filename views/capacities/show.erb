@@ -1,0 +1,18 @@
+<div class="container">
+  <h1 class="title">Capacity Details</h1>
+  
+  <div class="content">
+    <p><strong>Period Start:</strong> <%= @capacity.period_start %></p>
+    <p><strong>Period Type:</strong> <%= @capacity.period_type %></p>
+    <p><strong>Gross Capacity:</strong> <%= @capacity.gross_capacity %></p>
+    <p><strong>Planned Leaves:</strong> <%= @capacity.planned_leaves %></p>
+    <p><strong>Unplanned Leaves:</strong> <%= @capacity.unplanned_leaves %></p>
+    <p><strong>Net Capacity:</strong> <%= @capacity.net_capacity %></p>
+    <p><strong>Source:</strong> <%= @capacity.source %></p>
+  </div>
+
+  <div class="buttons">
+    <a href="/capacities/<%= @capacity.id %>/edit" class="button is-warning">Edit</a>
+    <a href="/capacities" class="button">Back to Capacities</a>
+  </div>
+</div> 
