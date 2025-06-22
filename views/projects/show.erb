@@ -1,0 +1,14 @@
+<div class="container">
+  <h1 class="title"><%= @project.name %></h1>
+  
+  <div class="content">
+    <p><strong>Category:</strong> <%= @project.category %></p>
+    <p><strong>Start Date:</strong> <%= @project.start_date %></p>
+    <p><strong>End Date:</strong> <%= @project.end_date %></p>
+  </div>
+
+  <div class="buttons">
+    <a href="/projects/<%= @project.id %>/edit" class="button is-warning">Edit</a>
+    <a href="/projects" class="button">Back to Projects</a>
+  </div>
+</div> 

@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'sassc'
 require './app'
+require './app/controllers/projects_controller'
 
 # Sass
 template = File.read('stylesheets/style.scss')
@@ -20,4 +21,8 @@ File.write('public/css/style.css', css_content)
 map = engine.source_map
 File.write('public/css/style.css.map', map)
 
-run App
+# run App
+
+# # Mount the controllers
+map('/') { run App }
+map('/projects') { run ProjectsController }

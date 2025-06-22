@@ -4,12 +4,15 @@ require 'sinatra/activerecord'
 require './helpers'
 require 'securerandom'
 
+# Load all models
+Dir[File.join(File.dirname(__FILE__), 'app', 'models', '*.rb')].each { |file| require file }
+
 class App < Sinatra::Base
   configure do
     enable :sessions
     set :json_encoder, :to_json
     set :erb, layout: :layout
-    # set :public_folder, File.join(File.dirname(__FILE__), 'public')
+    set :public_folder, File.join(File.dirname(__FILE__), 'public')
   end
 
   before do
