@@ -5,6 +5,7 @@ require './app/controllers/projects_controller'
 require './app/controllers/capacities_controller'
 require './app/controllers/project_allocations_controller'
 
+use Rack::MethodOverride
 # Sass
 template = File.read('stylesheets/style.scss')
 
