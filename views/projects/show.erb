@@ -1,14 +1,21 @@
-<div class="container">
-  <h1 class="title"><%= @project.name %></h1>
-  
-  <div class="content">
-    <p><strong>Category:</strong> <%= @project.category %></p>
-    <p><strong>Start Date:</strong> <%= @project.start_date %></p>
-    <p><strong>End Date:</strong> <%= @project.end_date %></p>
-  </div>
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h2 class="card-title mb-4"><%= @project.name %></h2>
+    
+    <dl class="row mb-4">
+      <dt class="col-sm-3">Category</dt>
+      <dd class="col-sm-9"><%= @project.category %></dd>
 
-  <div class="buttons">
-    <a href="/projects/<%= @project.id %>/edit" class="button is-warning">Edit</a>
-    <a href="/projects" class="button">Back to Projects</a>
+      <dt class="col-sm-3">Start Date</dt>
+      <dd class="col-sm-9"><%= @project.start_date %></dd>
+
+      <dt class="col-sm-3">End Date</dt>
+      <dd class="col-sm-9"><%= @project.end_date %></dd>
+    </dl>
+
+    <div class="d-flex justify-content-end gap-2">
+      <a href="/projects" class="btn btn-light">Back to Projects</a>
+      <a href="/projects/<%= @project.id %>/edit" class="btn btn-warning">Edit</a>
+    </div>
   </div>
 </div> 

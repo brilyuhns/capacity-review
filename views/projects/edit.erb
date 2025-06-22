@@ -1,6 +1,6 @@
-<div class="container">
-  <h1 class="title">Edit Project</h1>
-  <div class="content">
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h2 class="card-title mb-4">Edit Project</h2>
     <form action="/projects/<%= @project.id %>" method="post">
       <input type="hidden" name="_method" value="put">
       <%= erb :'projects/_form', layout: false %>
