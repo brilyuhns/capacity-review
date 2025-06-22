@@ -1,6 +1,6 @@
-<div class="container">
-  <h1 class="title">Edit Capacity</h1>
-  <div class="content">
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h2 class="card-title mb-4">Edit Capacity</h2>
     <form action="/capacities/<%= @capacity.id %>" method="post">
       <input type="hidden" name="_method" value="put">
       <%= erb :'capacities/_form', layout: false %>

@@ -1,18 +1,33 @@
-<div class="container">
-  <h1 class="title">Capacity Details</h1>
-  
-  <div class="content">
-    <p><strong>Period Start:</strong> <%= @capacity.period_start %></p>
-    <p><strong>Period Type:</strong> <%= @capacity.period_type %></p>
-    <p><strong>Gross Capacity:</strong> <%= @capacity.gross_capacity %></p>
-    <p><strong>Planned Leaves:</strong> <%= @capacity.planned_leaves %></p>
-    <p><strong>Unplanned Leaves:</strong> <%= @capacity.unplanned_leaves %></p>
-    <p><strong>Net Capacity:</strong> <%= @capacity.net_capacity %></p>
-    <p><strong>Source:</strong> <%= @capacity.source %></p>
-  </div>
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h2 class="card-title mb-4">Capacity Details</h2>
+    
+    <dl class="row mb-4">
+      <dt class="col-sm-3">Period Start</dt>
+      <dd class="col-sm-9"><%= @capacity.period_start %></dd>
 
-  <div class="buttons">
-    <a href="/capacities/<%= @capacity.id %>/edit" class="button is-warning">Edit</a>
-    <a href="/capacities" class="button">Back to Capacities</a>
+      <dt class="col-sm-3">Period Type</dt>
+      <dd class="col-sm-9"><%= @capacity.period_type %></dd>
+
+      <dt class="col-sm-3">Gross Capacity</dt>
+      <dd class="col-sm-9"><%= @capacity.gross_capacity %></dd>
+
+      <dt class="col-sm-3">Planned Leaves</dt>
+      <dd class="col-sm-9"><%= @capacity.planned_leaves %></dd>
+
+      <dt class="col-sm-3">Unplanned Leaves</dt>
+      <dd class="col-sm-9"><%= @capacity.unplanned_leaves %></dd>
+
+      <dt class="col-sm-3">Net Capacity</dt>
+      <dd class="col-sm-9"><%= @capacity.net_capacity %></dd>
+
+      <dt class="col-sm-3">Source</dt>
+      <dd class="col-sm-9"><%= @capacity.source %></dd>
+    </dl>
+
+    <div class="d-flex justify-content-end gap-2">
+      <a href="/capacities" class="btn btn-light">Back to Capacities</a>
+      <a href="/capacities/<%= @capacity.id %>/edit" class="btn btn-warning">Edit</a>
+    </div>
   </div>
 </div> 

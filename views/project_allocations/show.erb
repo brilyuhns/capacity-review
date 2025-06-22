@@ -1,1 +1,27 @@
- 
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h2 class="card-title mb-4">Project Allocation Details</h2>
+    
+    <dl class="row mb-4">
+      <dt class="col-sm-3">Project</dt>
+      <dd class="col-sm-9"><%= @project_allocation.project.name %></dd>
+
+      <dt class="col-sm-3">Period Start</dt>
+      <dd class="col-sm-9"><%= @project_allocation.period_start %></dd>
+
+      <dt class="col-sm-3">Period Type</dt>
+      <dd class="col-sm-9"><%= @project_allocation.period_type %></dd>
+
+      <dt class="col-sm-3">Allocation</dt>
+      <dd class="col-sm-9"><%= @project_allocation.allocation %>%</dd>
+
+      <dt class="col-sm-3">Source</dt>
+      <dd class="col-sm-9"><%= @project_allocation.source %></dd>
+    </dl>
+
+    <div class="d-flex justify-content-end gap-2">
+      <a href="/project_allocations" class="btn btn-light">Back to Project Allocations</a>
+      <a href="/project_allocations/<%= @project_allocation.id %>/edit" class="btn btn-warning">Edit</a>
+    </div>
+  </div>
+</div> 

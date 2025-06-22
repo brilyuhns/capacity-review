@@ -1,6 +1,6 @@
 <% if @capacity.errors.any? %>
-  <div class="notification is-danger">
-    <ul>
+  <div class="alert alert-danger">
+    <ul class="mb-0">
       <% @capacity.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
@@ -8,60 +8,45 @@
   </div>
 <% end %>
 
-<div class="field">
-  <label class="label">Period Start</label>
-  <div class="control">
-    <input class="input" type="date" name="capacity[period_start]" value="<%= @capacity.period_start %>" required>
-  </div>
+<div class="mb-3">
+  <label for="period_start" class="form-label">Period Start</label>
+  <input type="date" class="form-control" id="period_start" name="capacity[period_start]" value="<%= @capacity.period_start %>" required>
 </div>
 
-<div class="field">
-  <label class="label">Period Type</label>
-  <div class="control">
-    <div class="select">
-      <select name="capacity[period_type]" required>
-        <option value="week" <%= 'selected' if @capacity.period_type == 'week' %>>Week</option>
-        <option value="month" <%= 'selected' if @capacity.period_type == 'month' %>>Month</option>
-      </select>
-    </div>
-  </div>
+<div class="mb-3">
+  <label for="period_type" class="form-label">Period Type</label>
+  <select class="form-select" id="period_type" name="capacity[period_type]" required>
+    <option value="">Select a period type</option>
+    <option value="week" <%= 'selected' if @capacity.period_type == 'week' %>>Week</option>
+    <option value="month" <%= 'selected' if @capacity.period_type == 'month' %>>Month</option>
+  </select>
 </div>
 
-<div class="field">
-  <label class="label">Gross Capacity</label>
-  <div class="control">
-    <input class="input" type="number" step="0.01" name="capacity[gross_capacity]" value="<%= @capacity.gross_capacity %>" required>
-  </div>
+<div class="mb-3">
+  <label for="gross_capacity" class="form-label">Gross Capacity</label>
+  <input type="number" class="form-control" id="gross_capacity" name="capacity[gross_capacity]" value="<%= @capacity.gross_capacity %>" step="0.01" min="0" required>
 </div>
 
-<div class="field">
-  <label class="label">Planned Leaves</label>
-  <div class="control">
-    <input class="input" type="number" step="0.01" name="capacity[planned_leaves]" value="<%= @capacity.planned_leaves %>" required>
-  </div>
+<div class="mb-3">
+  <label for="planned_leaves" class="form-label">Planned Leaves</label>
+  <input type="number" class="form-control" id="planned_leaves" name="capacity[planned_leaves]" value="<%= @capacity.planned_leaves %>" step="0.01" min="0" required>
 </div>
 
-<div class="field">
-  <label class="label">Unplanned Leaves</label>
-  <div class="control">
-    <input class="input" type="number" step="0.01" name="capacity[unplanned_leaves]" value="<%= @capacity.unplanned_leaves %>" required>
-  </div>
+<div class="mb-3">
+  <label for="unplanned_leaves" class="form-label">Unplanned Leaves</label>
+  <input type="number" class="form-control" id="unplanned_leaves" name="capacity[unplanned_leaves]" value="<%= @capacity.unplanned_leaves %>" step="0.01" min="0" required>
 </div>
 
-<div class="field">
-  <label class="label">Source</label>
-  <div class="control">
-    <div class="select">
-      <select name="capacity[source]" required>
-        <option value="imported" <%= 'selected' if @capacity.source == 'imported' %>>Imported</option>
-        <option value="manual" <%= 'selected' if @capacity.source == 'manual' %>>Manual</option>
-      </select>
-    </div>
-  </div>
+<div class="mb-3">
+  <label for="source" class="form-label">Source</label>
+  <select class="form-select" id="source" name="capacity[source]" required>
+    <option value="">Select a source</option>
+    <option value="imported" <%= 'selected' if @capacity.source == 'imported' %>>Imported</option>
+    <option value="manual" <%= 'selected' if @capacity.source == 'manual' %>>Manual</option>
+  </select>
 </div>
 
-<div class="field">
-  <div class="control">
-    <button type="submit" class="button is-primary">Save Capacity</button>
-  </div>
+<div class="d-flex justify-content-end gap-2">
+  <a href="/capacities" class="btn btn-light">Cancel</a>
+  <button type="submit" class="btn btn-primary">Save Capacity</button>
 </div> 
