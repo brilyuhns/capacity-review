@@ -1,0 +1,63 @@
+<!-- Include Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="row mb-4">
+  <div class="col">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2 class="card-title mb-0">Analytics Dashboard</h2>
+          
+          <!-- Date Range Filter -->
+          <form action="/analytics" method="get" class="row g-3">
+            <div class="col-auto">
+              <input type="date" class="form-control" id="start_date" name="start_date" value="<%= @start_date %>">
+            </div>
+            <div class="col-auto">
+              <input type="date" class="form-control" id="end_date" name="end_date" value="<%= @end_date %>">
+            </div>
+            <div class="col-auto">
+              <button type="submit" class="btn btn-primary">Filter</button>
+              <a href="/analytics" class="btn btn-light">Reset</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mb-4">
+  <!-- Capacity Chart -->
+  <div class="col-12">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h3 class="card-title">Capacity Overview</h3>
+        <canvas id="capacityChart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+ <div class="row">
+  <!-- Project Allocations Chart -->
+  <div class="col-12">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h3 class="card-title">Project Allocations</h3>
+        <canvas id="allocationChart"></canvas>
+      </div>
+    </div>
+  </div>
+</div> 
+
+<!-- Initialize chart data and include chart scripts -->
+<script>
+  // Initialize data for charts
+  const capacity_data = <%= @capacity_data.to_json %>;
+  const allocationData = <%= @allocation_data.to_json %>;
+</script>
+
+<!-- Include chart scripts -->
+<script src="/scripts/capacity_chart.js"></script>
+<script src="/scripts/allocation_chart.js"></script> 
