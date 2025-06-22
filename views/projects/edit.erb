@@ -1,8 +1,9 @@
 <div class="container">
   <h1 class="title">Edit Project</h1>
-  
-  <form action="/projects/<%= @project.id %>" method="post">
-    <input type="hidden" name="_method" value="put">
-    <%= erb :'projects/_form' %>
-  </form>
+  <div class="content">
+    <form action="/projects/<%= @project.id %>" method="post">
+      <input type="hidden" name="_method" value="put">
+      <%= erb :'projects/_form', layout: false %>
+    </form>
+  </div>
 </div> 

@@ -1,8 +1,9 @@
 <div class="container">
   <h1 class="title">Edit Capacity</h1>
-  
-  <form action="/capacities/<%= @capacity.id %>" method="post">
-    <input type="hidden" name="_method" value="put">
-    <%= erb :'capacities/_form' %>
-  </form>
+  <div class="content">
+    <form action="/capacities/<%= @capacity.id %>" method="post">
+      <input type="hidden" name="_method" value="put">
+      <%= erb :'capacities/_form', layout: false %>
+    </form>
+  </div>
 </div> 
