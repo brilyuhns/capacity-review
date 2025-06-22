@@ -4,20 +4,7 @@ class AnalyticsController < App
     @start_date = params[:start_date] ? Date.parse(params[:start_date]) : Date.today.beginning_of_month - 2.months
     @end_date = params[:end_date] ? Date.parse(params[:end_date]) : Date.today.end_of_month
 
-    # Fetch capacity data
-    @capacities = Capacity.where(period_start: @start_date..@end_date)
-                         .order(:period_start)
-
-    # Format data for chart
-    @capacity_data = {
-      labels: @capacities.map { |c| c.period_start.strftime("%b %Y") },
-      data: {
-        capacityExcludingHolidays: @capacities.map(&:gross_capacity),
-        netCapacity: @capacities.map(&:net_capacity),
-        leaves: @capacities.map(&:planned_leaves),
-        unplannedLeaves: @capacities.map(&:unplanned_leaves)
-      }
-    }
+    @capacity_data = capacity_data
 
     # Fetch project allocation data
     @allocations = ProjectAllocation.where(period_start: @start_date..@end_date)
@@ -49,5 +36,23 @@ class AnalyticsController < App
     }
 
     erb :'analytics/index'
+  end
+
+  def capacity_data
+    @capacities = Capacity.where(period_start: @start_date..@end_date)
+                         .order(:period_start)
+    @capacities_by_month = @capacities.group_by { |c| c.period_start.strftime("%b %Y") }
+    puts @capacities_by_month.inspect
+    # Format data for chart
+    @capacity_data = {
+      labels: @capacities_by_month.keys,
+      data: {
+        capacityExcludingHolidays: @capacities_by_month.map { |_, capacities| capacities.sum(&:gross_capacity) },
+        netCapacity: @capacities_by_month.map { |_, capacities| capacities.sum(&:net_capacity) },
+        leaves: @capacities_by_month.map { |_, capacities| capacities.sum(&:planned_leaves) },
+        unplannedLeaves: @capacities_by_month.map { |_, capacities| capacities.sum(&:unplanned_leaves) }
+      }
+    }
+    puts @capacity_data.inspect
   end
 end 
