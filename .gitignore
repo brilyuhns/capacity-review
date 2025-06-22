@@ -1,1 +1,6 @@
 .idea
+db/*.sqlite3
+
+# Bundler directories
+.bundle/
+vendor/
