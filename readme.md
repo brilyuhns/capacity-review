@@ -45,7 +45,7 @@ When the application starts, it automatically runs the database migrations. You 
 
 ### Deployment
 
-The application is configured for deployment to Google Cloud Run. The `deploy.sh` script automates the process.
+The application is configured for deployment to Google Cloud Run. The `deploy.sh` script builds and deploys the container. The Docker image uses an `entrypoint.sh` script that runs `db:create` and `db:migrate` before starting the app. If you supply the `GCS_BUCKET` environment variable, the bucket is mounted using `gcsfuse` and backups will be written there when `BACKUP_ON_START=true`.
 
 Before running the script, make sure you have:
 1.  Authenticated with gcloud CLI.
@@ -61,8 +61,9 @@ To deploy the application, run the following command:
 This script will:
 1.  Create a Cloud Storage bucket for the database if it doesn't exist.
 2.  Build and push the Docker image to Google Container Registry.
-3.  Deploy the application to Cloud Run.
-4.  Create a service account and grant it the necessary permissions.
+3.  Deploy the application to Cloud Run with the bucket mounted via `gcsfuse`.
+4.  The entrypoint runs migrations (`db:create && db:migrate`) and optionally
+    backs up the database to the bucket when `BACKUP_ON_START=true`.
 
 ## Project Structure
 
@@ -76,8 +77,7 @@ This script will:
 │   └── migrate       # Database migrations
 ├── public            # Static assets
 ├── Gemfile           # Ruby dependencies
-├── Dockerfile        # Development Dockerfile
-├── Dockerfile.prod   # Production Dockerfile
-├── docker-compose.yml # Docker Compose configuration
-└── deploy.sh         # Deployment script
+├── Dockerfile        # Container build file
+├── entrypoint.sh     # Container startup script
+└── deploy.sh         # Deployment script for Cloud Run
 ```
