@@ -1,6 +1,6 @@
 development:
   adapter: sqlite3
-  database: db/app.sqlite3
+  database: <%= ENV['DATABASE_PATH'] || 'db/development.sqlite3' %>
 
 production:
   adapter: sqlite3

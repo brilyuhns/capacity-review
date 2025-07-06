@@ -4,27 +4,24 @@ require 'sinatra/activerecord/rake'
 # Load the app
 require_relative 'app'
 
-require 'rspec/core/rake_task'
-RSpec::Core::RakeTask.new(:spec)
+# Only load RSpec tasks if RSpec is available (development/test environments)
+begin
+  require 'rspec/core/rake_task'
+  RSpec::Core::RakeTask.new(:spec)
+rescue LoadError
+  # RSpec not available, skip loading RSpec tasks
+end
 
 require_relative 'config/application'
 
 # Load all tasks
 Dir.glob('lib/tasks/*.rake').each { |r| load r }
 
-# Set up database connection
-ActiveRecord::Base.establish_connection(
-  adapter: 'sqlite3',
-  database: 'db/app.sqlite3'
-)
+# Database connection is now handled by config/application.rb
 
 namespace :db do
   task :environment do
-    # Set up database connection
-    ActiveRecord::Base.establish_connection(
-      adapter: 'sqlite3',
-      database: 'db/app.sqlite3'
-    )
+    # Database connection is handled by config/application.rb
   end
 end
 
@@ -33,7 +30,12 @@ task :rubocop do
   sh 'rubocop --format simple || true'
 end
 
-task default: %i[rubocop spec]
+# Only set spec as default task if RSpec is available
+if defined?(RSpec)
+  task default: %i[rubocop spec]
+else
+  task default: %i[rubocop]
+end
 
 desc 'Open an irb session preloaded with the environment'
 task :console do

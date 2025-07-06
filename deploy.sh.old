@@ -1,0 +1,52 @@
+#!/bin/bash
+
+# Exit on error
+set -e
+
+# Configuration
+PROJECT_ID=$(gcloud config get-value project)
+REGION="asia-southeast1"
+APP_NAME="capacity-review"
+BUCKET_NAME="$PROJECT_ID-$APP_NAME-db"
+
+# Create Cloud Storage bucket if it doesn't exist
+if ! gsutil ls gs://$BUCKET_NAME > /dev/null 2>&1; then
+    echo "Creating Cloud Storage bucket: $BUCKET_NAME"
+    gsutil mb -l $REGION gs://$BUCKET_NAME
+fi
+
+# Build and push the Docker image
+echo "Building and pushing Docker image..."
+gcloud builds submit --tag gcr.io/$PROJECT_ID/$APP_NAME \
+    -f Dockerfile.prod
+
+# Deploy to Cloud Run
+echo "Deploying to Cloud Run..."
+gcloud run deploy $APP_NAME \
+    --image gcr.io/$PROJECT_ID/$APP_NAME \
+    --platform managed \
+    --region $REGION \
+    --allow-unauthenticated \
+    --memory 512Mi \
+    --set-env-vars="BUCKET_NAME=$BUCKET_NAME" \
+    --service-account="$APP_NAME@$PROJECT_ID.iam.gserviceaccount.com"
+
+# Create service account if it doesn't exist
+if ! gcloud iam service-accounts describe "$APP_NAME@$PROJECT_ID.iam.gserviceaccount.com" > /dev/null 2>&1; then
+    echo "Creating service account..."
+    gcloud iam service-accounts create $APP_NAME \
+        --display-name="$APP_NAME service account"
+fi
+
+# Grant Storage Object Viewer and Storage Object Creator roles to the service account
+echo "Setting IAM permissions..."
+gsutil iam ch \
+    serviceAccount:$APP_NAME@$PROJECT_ID.iam.gserviceaccount.com:roles/storage.objectViewer \
+    gs://$BUCKET_NAME
+
+gsutil iam ch \
+    serviceAccount:$APP_NAME@$PROJECT_ID.iam.gserviceaccount.com:roles/storage.objectCreator \
+    gs://$BUCKET_NAME
+
+echo "Deployment complete!"
+echo "Your application will be available at: $(gcloud run services describe $APP_NAME --platform managed --region $REGION --format 'value(status.url)')" 

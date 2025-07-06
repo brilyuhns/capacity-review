@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
+      - ./db:/app/db
+    environment:
+      # Override production settings for local development
+      - RACK_ENV=development
+      - DATABASE_PATH=db/development.sqlite3
+    command: >
+      bash -c "
+        echo 'Migrating database...'
+        bundle exec rake db:create &&
+        bundle exec rake db:migrate
+        echo 'Database migrated'
+        echo 'Starting server...'
+        bundle exec rackup --host 0.0.0.0 -p 8080
+      "
+
+# volumes:
+#   db_data: 
+
+
+ # echo 'Checking if database exists...'
+        # echo `ls -la /app/db`
+        # if [ -f /app/db/app.sqlite3 ]; then
+        #   echo 'Database exists'
+        #   echo 'Migrating database...'
+        #   bundle exec rake db:migrate
+        #   echo 'Database migrated'
+        # bundle exec rake import:data 
+        # echo 'Data imported'
+        
+        # else
+        #   echo 'Creating database...'
+        #   bundle exec rake db:create
+        #   echo 'Migrating database...'
+        #   bundle exec rake db:migrate
+        #   echo 'Database created and migrated'
+        # fi
+       

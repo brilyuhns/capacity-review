@@ -1,0 +1,16 @@
+steps:
+  # Build the container image using Dockerfile.prod
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-f', 'Dockerfile.prod', '-t', '$_IMAGE_NAME', '.']
+  
+  # Push the container image to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', '$_IMAGE_NAME']
+
+# Substitution variables (default value, will be overridden by deploy.sh)
+substitutions:
+  _IMAGE_NAME: 'asia-southeast1-docker.pkg.dev/${PROJECT_ID}/capacity-review-repo/capacity-review'
+
+# Image will be pushed to Artifact Registry
+images:
+  - '$_IMAGE_NAME' 

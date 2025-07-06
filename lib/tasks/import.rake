@@ -4,6 +4,30 @@ require 'date'
 namespace :import do
   desc "Import data from CSV file"
   task :data, [:csv_file] do
+    # Debug database connection
+    puts "=== DATABASE DEBUG INFO ==="
+    puts "Database config: #{ActiveRecord::Base.connection_db_config}"
+    puts "Database adapter: #{ActiveRecord::Base.connection.adapter_name}"
+    
+    # Show which database file is being used
+    if ActiveRecord::Base.connection.adapter_name == 'SQLite'
+      db_path = ActiveRecord::Base.connection.instance_variable_get(:@config)[:database]
+      puts "SQLite database path: #{db_path}"
+      puts "Database file exists: #{File.exist?(db_path)}"
+      puts "Database file size: #{File.exist?(db_path) ? File.size(db_path) : 'N/A'} bytes"
+    end
+    
+    # Show existing records
+    puts "Existing Capacity records: #{Capacity.count}"
+    if Capacity.count > 0
+      puts "Existing Capacity records:"
+      Capacity.all.each do |cap|
+        puts "  ID: #{cap.id}, Period: #{cap.period_start}, Type: #{cap.period_type}"
+      end
+    end
+    puts "=== END DATABASE DEBUG ==="
+    puts ""
+    
     csv_file = ARGV[1] || 'data/resourcing_stats.csv'
     
     unless File.exist?(csv_file)
@@ -34,10 +58,27 @@ namespace :import do
       
       # Convert week string to date
       period_start = parse_week_to_date(week)
+      
+      # Debug output
+      puts "Processing week: #{week}"
+      puts "  Parsed date: #{period_start}"
+      puts "  Gross capacity: #{gross_capacity}"
+      puts "  Planned leaves: #{planned_leaves}"
+      puts "  Unplanned leaves: #{unplanned_leaves}"
+      
       if period_start
+        # Check if record already exists
+        existing = Capacity.find_by(period_start: period_start, period_type: 'month')
+        if existing
+          puts "  WARNING: Record already exists for #{period_start} with period_type 'month'"
+          puts "  Existing record ID: #{existing.id}"
+        else
+          puts "  Creating new capacity record"
+        end
+        
         Capacity.create!(
           period_start: period_start,
-          period_type: 'month',
+          period_type: 'week',
           gross_capacity: gross_capacity,
           planned_leaves: planned_leaves,
           unplanned_leaves: unplanned_leaves,
