@@ -7,6 +7,9 @@ This is a simple resource management tool built with Sinatra. It allows you to m
 *   CRUD for Projects
 *   Track team capacity and allocations
 
+Writing some comments to test tags and releases
+
+
 ## Tech Stack
 
 *   **Backend:** Ruby, Sinatra, ActiveRecord
